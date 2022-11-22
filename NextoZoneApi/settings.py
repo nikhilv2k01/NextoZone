@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'nexto_zone',
         'USER': 'postgres',
-        'PASSWORD': 'password',
+        'PASSWORD': 'nn2479',
         'HOST': 'localhost',
         'PORT': '5432',
     }
