@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import *
 from .models import *
 from django.db.models import Q
+from rest_framework import status
+
 
 
 # Register Serializer
@@ -20,8 +22,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         queryset = Register.objects.filter(
             Q(user_name=attrs['user_name']) | Q(email_id=attrs['email_id']))
         if queryset:
-            raise serializers.ValidationError(
-                {"message": "Username or Email-Id already exists."})
+            raise serializers.ValidationError({
+                "status": False,
+                "status_code": status.HTTP_404_NOT_FOUND,
+                "discription": "Username or Email-Id already exists.",
+                "data": [],
+            })
         return attrs
 
 
@@ -48,8 +54,17 @@ class LoginSerializer(serializers.ModelSerializer):
         password_exist = Register.objects.filter(password=password).exists()
 
         if not username_exist:
-            raise serializers.ValidationError({"message": "User not found!"})
+            raise serializers.ValidationError({
+                "status": False,
+                "status_code": status.HTTP_404_NOT_FOUND,
+                "discription": "User not found!",
+                "data": [],
+                })
         if not password_exist:
-            raise serializers.ValidationError(
-                {"message": "Incorrect password!"})
+            raise serializers.ValidationError({
+                "status": False,
+                "status_code": status.HTTP_404_NOT_FOUND,
+                "discription": "Incorrect password!",
+                "data": [],
+                })
         return attrs
